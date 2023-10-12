@@ -4,25 +4,27 @@ import SchoolManagment.Exception.TutorException;
 import SchoolManagment.entity.Tutor;
 import SchoolManagment.repository.TutorRepo;
 import SchoolManagment.serviceImpl.service.TutorService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Service
 public class TutorServiceImpl implements TutorService {
 
-
     private TutorRepo tutorRepo;
+
+    public TutorServiceImpl(TutorRepo tutorRepo) {
+        this.tutorRepo = tutorRepo;
+    }
 
     @Override
     public String saveTutor(Tutor tutor) {
         Tutor tutorEmail = this.tutorRepo.findByEmail(tutor.getEmail());
-        Tutor tutorNumber = this.tutorRepo.findByNumber(tutor.getPhonenumber());
 
-        if (tutorEmail == null && tutorNumber == null) {
+        if (tutorEmail == null) {
+            tutor.setCreate_at(LocalDateTime.now());
             this.tutorRepo.save(tutor);
             return TutorException.SUCCESSFUL;
         }
@@ -37,20 +39,20 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public Tutor getTutor(String id) {
+    public Tutor getTutor(Long id) {
         Optional<Tutor> optionalTutor = this.tutorRepo.findById(id);
         return optionalTutor.orElseThrow(() -> new RuntimeException(TutorException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updateTutor(String id, Tutor tutor) {
+    public String updateTutor(Long id, Tutor tutor) {
         Tutor tutorUpdated = this.getTutor(id);
 
         if (tutorUpdated.getId() == tutor.getId()) {
-            tutorUpdated.setFullname(tutor.getFullname());
+            tutorUpdated.setFullName(tutor.getFullName());
             tutorUpdated.setType(tutor.getType());
             tutorUpdated.setEmail(tutor.getEmail());
-            tutorUpdated.setPhonenumber(tutor.getPhonenumber());
+            tutorUpdated.setPhoneNumber(tutor.getPhoneNumber());
             this.tutorRepo.save(tutorUpdated);
             return TutorException.SUCCESSFUL;
         }
@@ -65,7 +67,7 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public void deleteTutorByid(String id) {
+    public void deleteTutorByid(Long id) {
         this.tutorRepo.deleteById(id);
     }
 }

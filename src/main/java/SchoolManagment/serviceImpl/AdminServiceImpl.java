@@ -6,24 +6,29 @@ import SchoolManagment.repository.AdminRepo;
 import SchoolManagment.serviceImpl.service.AdminService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Service
 public class AdminServiceImpl implements AdminService {
 
     private AdminRepo adminRepo;
+
+    public AdminServiceImpl(AdminRepo adminRepo) {
+        this.adminRepo = adminRepo;
+    }
 
     //Methode pour inserer des admin
     @Override
     public String saveAdmin(Admin admin) {
 
         Admin adminEmail = this.adminRepo.findByEmail(admin.getEmail());
-        Admin adminPhone = this.adminRepo.findByPhone(admin.getPhonenumber());
 
-        if (adminEmail==null && adminPhone == null) {
+        if (adminEmail==null) {
+            admin.setCreate_at(LocalDateTime.now());
             this.adminRepo.save(admin);
             return AdminException.SUCCESSFULL;
         }
@@ -41,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
 
     //Methode pour afficher un admin grace a son id
     @Override
-    public Admin getAdmin(String id) {
+    public Admin getAdmin(Long id) {
         Optional<Admin> optionalAdmin = this.adminRepo.findById(id);
 
         return optionalAdmin.orElseThrow(() -> new RuntimeException("Admin ayant l'id "+id+" pas trouve!"));
@@ -50,7 +55,7 @@ public class AdminServiceImpl implements AdminService {
 
     //Methode pour faire la MAJ d'un admin
     @Override
-    public String updateAdmin(String id, Admin admin) {
+    public String updateAdmin(Long id, Admin admin) {
 
         Admin adminUpdate = this.getAdmin(id);
 
@@ -59,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
             adminUpdate.setLastname(admin.getLastname());
             adminUpdate.setEmail(admin.getEmail());
             adminUpdate.setHash(admin.getHash());
-            adminUpdate.setPhonenumber(admin.getPhonenumber());
+            adminUpdate.setPhoneNumber(admin.getPhoneNumber());
             adminUpdate.setImage(admin.getImage());
             this.adminRepo.save(adminUpdate);
             return AdminException.SUCCESSFULL;
@@ -77,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteAdminByid(String id) {
+    public void deleteAdminByid(Long id) {
         this.adminRepo.deleteById(id);
     }
 }

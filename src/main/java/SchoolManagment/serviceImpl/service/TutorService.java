@@ -1,13 +1,11 @@
 package SchoolManagment.serviceImpl.service;
 
 
-import SchoolManagment.entity.Subject;
 import SchoolManagment.entity.Tutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface TutorService {
 
     //Enregistrer un tutor
@@ -17,14 +15,14 @@ public interface TutorService {
     List<Tutor> getAllTutor();
 
     //Afficher un tutor par son id
-    Tutor getTutor(String id);
+    Tutor getTutor(Long id);
 
     //MAJ des donnees d'un tutor
-    String updateTutor(String id, Tutor tutor);
+    String updateTutor(Long id, Tutor tutor);
 
     //Suppression de tous les tutor
     void deleteTutor();
 
     //Suppression d'un tutor par id
-    void deleteTutorByid(String id);
+    void deleteTutorByid(Long id);
 }

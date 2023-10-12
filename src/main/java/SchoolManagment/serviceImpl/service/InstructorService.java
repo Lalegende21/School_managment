@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface InstructorService {
 
     //Enregistrer un admin
@@ -15,14 +14,14 @@ public interface InstructorService {
     List<Instructor> getAllInstructor();
 
     //Afficher un Instructor par son id
-    Instructor getInstructor(String id);
+    Instructor getInstructor(Long id);
 
     //MAJ des donnees d'un Instructor
-    String updateInstructor(String id, Instructor instructor);
+    String updateInstructor(Long id, Instructor instructor);
 
     //Suppression de tous les Instructor
     void deleteInstructor();
 
     //Suppression d'un Instructor par id
-    void deleteInstructorByid(String id);
+    void deleteInstructorByid(Long id);
 }

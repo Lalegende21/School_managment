@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface PaymentService {
 
     //Enregistrer un paiement
@@ -17,14 +16,14 @@ public interface PaymentService {
     List<Payment> getAllPayment();
 
     //Afficher un paiement par son id
-    Payment getPayment(String id);
+    Payment getPayment(Long id);
 
     //MAJ des donnees d'un paiement
-    String updatePayment(String id, Payment payment);
+    String updatePayment(Long id, Payment payment);
 
     //Suppression de tous les paiement
     void deletePayment();
 
     //Suppression d'un paiement par id
-    void deletePaymentByid(String id);
+    void deletePaymentByid(Long id);
 }

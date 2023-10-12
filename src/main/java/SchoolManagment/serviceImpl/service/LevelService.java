@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface LevelService {
 
     //Enregistrer un salle
@@ -15,14 +14,14 @@ public interface LevelService {
     List<Level> getAllLevel();
 
     //Afficher un salle par son id
-    Level getLevel(String id);
+    Level getLevel(Long id);
 
     //MAJ des donnees d'un salle
-    String updateLevel(String id, Level level);
+    String updateLevel(Long id, Level level);
 
     //Suppression de tous les salle
     void deleteLevel();
 
     //Suppression d'un salle par id
-    void deleteLevelByid(String id);
+    void deleteLevelByid(Long id);
 }

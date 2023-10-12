@@ -6,23 +6,28 @@ import SchoolManagment.repository.InstructorRepo;
 import SchoolManagment.serviceImpl.service.InstructorService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Service
 public class InstructorServiceImpl implements InstructorService {
 
     private InstructorRepo instructorRepo;
 
+    public InstructorServiceImpl(InstructorRepo instructorRepo) {
+        this.instructorRepo = instructorRepo;
+    }
+
     @Override
     public String saveInstructor(Instructor instructor) {
         Instructor instructorEmail = this.instructorRepo.findByEmail(instructor.getEmail());
-        Instructor instructorPhone = this.instructorRepo.findByPhone(instructor.getPhonenumber());
 
-        if (instructorEmail==null && instructorPhone==null){
+        if (instructorEmail==null){
+            instructor.setCreate_at(LocalDateTime.now());
             this.instructorRepo.save(instructor);
             return InstructorException.SUCCESSFUL;
         }
@@ -37,14 +42,14 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public Instructor getInstructor(String id) {
+    public Instructor getInstructor(Long id) {
         Optional<Instructor> optionalInstructor = this.instructorRepo.findById(id);
 
         return optionalInstructor.orElseThrow(() -> new RuntimeException("Admin ayant l'id "+id+" pas trouve!"));
     }
 
     @Override
-    public String updateInstructor(String id, Instructor instructor) {
+    public String updateInstructor(Long id, Instructor instructor) {
         Instructor instructorUpdated = this.getInstructor(id);
 
         if (instructorUpdated.getId() == instructor.getId()) {
@@ -52,7 +57,7 @@ public class InstructorServiceImpl implements InstructorService {
             instructorUpdated.setLastname(instructor.getLastname());
             instructorUpdated.setEmail(instructor.getEmail());
             instructorUpdated.setCNI(instructor.getCNI());
-            instructorUpdated.setPhonenumber(instructor.getPhonenumber());
+            instructorUpdated.setPhoneNumber(instructor.getPhoneNumber());
             instructorUpdated.setImage(instructor.getImage());
             this.instructorRepo.save(instructor);
             return InstructorException.SUCCESSFUL;
@@ -68,7 +73,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public void deleteInstructorByid(String id) {
+    public void deleteInstructorByid(Long id) {
         this.instructorRepo.deleteById(id);
     }
 }

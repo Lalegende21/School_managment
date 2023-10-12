@@ -1,6 +1,7 @@
 package SchoolManagment.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,17 +11,19 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "instructor")
+@Table(name = "payment")
 public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "amount", nullable = false)
+    @NotEmpty
     private BigDecimal amount;
 
     @Column(name = "create_at", nullable = false)
+    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")

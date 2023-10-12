@@ -4,20 +4,20 @@ import SchoolManagment.Exception.PaymentException;
 import SchoolManagment.entity.Payment;
 import SchoolManagment.repository.PaymentRepo;
 import SchoolManagment.serviceImpl.service.PaymentService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Service
 public class PaymentServiceImpl implements PaymentService {
 
     private PaymentRepo paymentRepo;
 
     @Override
     public String savePayment(Payment payment) {
+        payment.setCreate_at(LocalDateTime.now());
         this.paymentRepo.save(payment);
         return PaymentException.SUCCESSFUL;
     }
@@ -28,13 +28,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment getPayment(String id) {
+    public Payment getPayment(Long id) {
         Optional<Payment> optionalPayment = this.paymentRepo.findById(id);
         return optionalPayment.orElseThrow(() -> new RuntimeException(PaymentException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updatePayment(String id, Payment payment) {
+    public String updatePayment(Long id, Payment payment) {
         Payment paymentUpdated = this.getPayment(id);
 
         if (paymentUpdated.getId() == payment.getId()) {
@@ -53,7 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void deletePaymentByid(String id) {
+    public void deletePaymentByid(Long id) {
         this.paymentRepo.deleteById(id);
     }
 }

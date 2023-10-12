@@ -1,13 +1,11 @@
 package SchoolManagment.serviceImpl.service;
 
 
-import SchoolManagment.entity.Serie;
 import SchoolManagment.entity.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface StudentService {
 
     //Enregistrer un student
@@ -17,14 +15,14 @@ public interface StudentService {
     List<Student> getAllStudent();
 
     //Afficher un student par son id
-    Student getStudent(String id);
+    Student getStudent(Long id);
 
     //MAJ des donnees d'un student
-    String updateStudent(String id, Student student);
+    String updateStudent(Long id, Student student);
 
     //Suppression de tous les student
     void deleteStudent();
 
     //Suppression d'un student par id
-    void deleteStudentByid(String id);
+    void deleteStudentByid(Long id);
 }

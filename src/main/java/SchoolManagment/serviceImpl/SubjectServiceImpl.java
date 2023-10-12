@@ -4,23 +4,27 @@ import SchoolManagment.Exception.SubjectException;
 import SchoolManagment.entity.Subject;
 import SchoolManagment.repository.SubjectRepo;
 import SchoolManagment.serviceImpl.service.SubjectService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Service
 public class SubjectServiceImpl implements SubjectService {
 
     private SubjectRepo subjectRepo;
+
+    public SubjectServiceImpl(SubjectRepo subjectRepo) {
+        this.subjectRepo = subjectRepo;
+    }
 
     @Override
     public String saveSubject(Subject subject) {
         Subject subjectName = this.subjectRepo.findByName(subject.getName());
 
         if (subjectName == null) {
+            subject.setCreate_at(LocalDateTime.now());
             this.subjectRepo.save(subject);
             return SubjectException.SUCCESSFUL;
         }
@@ -35,14 +39,14 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject getSubject(String id) {
+    public Subject getSubject(Long id) {
         Optional<Subject> optionalSubject = this.subjectRepo.findById(id);
 
         return optionalSubject.orElseThrow(() -> new RuntimeException(SubjectException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updateSubject(String id, Subject subject) {
+    public String updateSubject(Long id, Subject subject) {
         Subject subjectUpdated = this.getSubject(id);
 
         if (subjectUpdated.getId() == subject.getId()) {
@@ -62,7 +66,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void deleteSubjectByid(String id) {
+    public void deleteSubjectByid(Long id) {
         this.subjectRepo.deleteById(id);
     }
 }

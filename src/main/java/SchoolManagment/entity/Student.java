@@ -1,6 +1,8 @@
 package SchoolManagment.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,21 +17,29 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "firstname", nullable = false)
+    @NotEmpty
+    @Size(min = 3, max = 100, message = "firstname should have minimum 3 characters and maximum 100 characters")
     private String firstname;
 
     @Column(name = "lastname", nullable = false)
+    @NotEmpty
+    @Size(min = 3, max = 100, message = "lastname should have minimum 3 characters and maximum 100 characters")
     private String lastname;
 
     @Column(name = "matricule", nullable = false, unique = true)
+    @NotEmpty
+    @Size(min = 3, max = 100, message = "matricule should have minimum 3 characters and maximum 100 characters")
     private String matricule;
 
     @Column(name = "date_of_birth", nullable = false)
+    @NotEmpty
     private Date date_of_birth;
 
     @Column(name = "image", nullable = false, unique = true)
+    @NotEmpty
     private String image;
 
 //    @ManyToOne
@@ -52,6 +62,7 @@ public class Student {
 
 
     @Column(name = "create_at", nullable = false)
+    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")
