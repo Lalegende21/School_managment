@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 public class Serie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "name", nullable = false, unique = true)
     @NotEmpty
@@ -35,6 +36,14 @@ public class Serie {
     @Column(name = "second-installment", nullable = false)
     @NotEmpty
     private BigDecimal secondinstallment;
+
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
+    @NotEmpty
+    private List<Student> students;
+
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
+    @NotEmpty
+    private List<Serie_Subject> serie_subjects;
 
     @Column(name = "create_at", nullable = false)
     @NotEmpty

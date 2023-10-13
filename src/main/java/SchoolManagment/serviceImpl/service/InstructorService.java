@@ -1,7 +1,6 @@
 package SchoolManagment.serviceImpl.service;
 
 import SchoolManagment.entity.Instructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,14 +13,14 @@ public interface InstructorService {
     List<Instructor> getAllInstructor();
 
     //Afficher un Instructor par son id
-    Instructor getInstructor(Long id);
+    Instructor getInstructor(String id);
 
     //MAJ des donnees d'un Instructor
-    String updateInstructor(Long id, Instructor instructor);
+    String updateInstructor(String id, Instructor instructor);
 
     //Suppression de tous les Instructor
     void deleteInstructor();
 
     //Suppression d'un Instructor par id
-    void deleteInstructorByid(Long id);
+    void deleteInstructorByid(String id);
 }

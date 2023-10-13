@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class Tutor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "fullName", nullable = false)
     @NotEmpty
@@ -37,6 +38,10 @@ public class Tutor {
     @NotEmpty
     @Size(min = 9, max = 30, message = "phoneNumber should have have minimum 9 characters and maximum 30 characters")
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL)
+    @NotEmpty
+    private List<Student> students;
 
     @Column(name = "create_at", nullable = false)
     @NotEmpty

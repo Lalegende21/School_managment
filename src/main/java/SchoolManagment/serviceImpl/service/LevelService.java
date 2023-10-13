@@ -14,14 +14,14 @@ public interface LevelService {
     List<Level> getAllLevel();
 
     //Afficher un salle par son id
-    Level getLevel(Long id);
+    Level getLevel(String id);
 
     //MAJ des donnees d'un salle
-    String updateLevel(Long id, Level level);
+    String updateLevel(String id, Level level);
 
     //Suppression de tous les salle
     void deleteLevel();
 
     //Suppression d'un salle par id
-    void deleteLevelByid(Long id);
+    void deleteLevelByid(String id);
 }

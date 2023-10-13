@@ -4,8 +4,6 @@ import SchoolManagment.Exception.StudentException;
 import SchoolManagment.entity.Student;
 import SchoolManagment.repository.StudentRepo;
 import SchoolManagment.serviceImpl.service.StudentService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +13,7 @@ import java.util.Optional;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private StudentRepo studentRepo;
+    private final StudentRepo studentRepo;
 
     public StudentServiceImpl(StudentRepo studentRepo) {
         this.studentRepo = studentRepo;
@@ -41,16 +39,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudent(Long id) {
+    public Student getStudent(String id) {
         Optional<Student> optionalStudent = this.studentRepo.findById(id);
         return optionalStudent.orElseThrow(() -> new RuntimeException(StudentException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updateStudent(Long id, Student student) {
+    public String updateStudent(String id, Student student) {
         Student studentUpdated = this.getStudent(id);
 
-        if (studentUpdated.getId() == student.getId()) {
+        if (studentUpdated.getId().equals(student.getId())) {
             studentUpdated.setFirstname(student.getFirstname());
             studentUpdated.setLastname(student.getLastname());
             studentUpdated.setDate_of_birth(student.getDate_of_birth());
@@ -69,7 +67,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudentByid(Long id) {
+    public void deleteStudentByid(String id) {
         this.studentRepo.deleteById(id);
     }
 }

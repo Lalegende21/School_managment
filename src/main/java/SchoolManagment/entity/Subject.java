@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class Subject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "name", nullable = false, unique = true)
     @NotEmpty
@@ -28,10 +29,16 @@ public class Subject {
     @Size(min = 1, max = 3, message = "coeff should have minimum 1 characters and maximum 3 characters")
     private String coeff;
 
+    @ManyToOne
+    @JoinColumn(name = "instructor_id", referencedColumnName = "id")
+    private Instructor instructor;
 
-//    @ManyToOne
-//    @JoinColumn(name = "level_id")
-//    private Level level;
+    @ManyToOne
+    @JoinColumn(name = "level_id", referencedColumnName = "id")
+    private Level level;
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+    private List<Serie_Subject> serie_subjects;
 
     @Column(name = "create_at", nullable = false)
     private LocalDateTime create_at;

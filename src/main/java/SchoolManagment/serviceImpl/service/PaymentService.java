@@ -1,9 +1,7 @@
 package SchoolManagment.serviceImpl.service;
 
 
-import SchoolManagment.entity.Level;
 import SchoolManagment.entity.Payment;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,14 +14,14 @@ public interface PaymentService {
     List<Payment> getAllPayment();
 
     //Afficher un paiement par son id
-    Payment getPayment(Long id);
+    Payment getPayment(String id);
 
     //MAJ des donnees d'un paiement
-    String updatePayment(Long id, Payment payment);
+    String updatePayment(String id, Payment payment);
 
     //Suppression de tous les paiement
     void deletePayment();
 
     //Suppression d'un paiement par id
-    void deletePaymentByid(Long id);
+    void deletePaymentByid(String id);
 }

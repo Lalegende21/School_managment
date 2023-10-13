@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class TutorServiceImpl implements TutorService {
 
-    private TutorRepo tutorRepo;
+    private final TutorRepo tutorRepo;
 
     public TutorServiceImpl(TutorRepo tutorRepo) {
         this.tutorRepo = tutorRepo;
@@ -39,16 +39,16 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public Tutor getTutor(Long id) {
+    public Tutor getTutor(String id) {
         Optional<Tutor> optionalTutor = this.tutorRepo.findById(id);
         return optionalTutor.orElseThrow(() -> new RuntimeException(TutorException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updateTutor(Long id, Tutor tutor) {
+    public String updateTutor(String id, Tutor tutor) {
         Tutor tutorUpdated = this.getTutor(id);
 
-        if (tutorUpdated.getId() == tutor.getId()) {
+        if (tutorUpdated.getId().equals(tutor.getId())) {
             tutorUpdated.setFullName(tutor.getFullName());
             tutorUpdated.setType(tutor.getType());
             tutorUpdated.setEmail(tutor.getEmail());
@@ -67,7 +67,7 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public void deleteTutorByid(Long id) {
+    public void deleteTutorByid(String id) {
         this.tutorRepo.deleteById(id);
     }
 }

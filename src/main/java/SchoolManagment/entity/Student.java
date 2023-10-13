@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "firstname", nullable = false)
     @NotEmpty
@@ -42,23 +43,23 @@ public class Student {
     @NotEmpty
     private String image;
 
-//    @ManyToOne
-//    @JoinColumn(name = "admin_id")
-//    private Admin admin;
+    @ManyToOne
+    @JoinColumn(name = "admin_id", referencedColumnName = "id")
+    private Admin admin;
 
 
-//    @ManyToOne
-//    @JoinColumn(name = "tutor_id")
-//    private Tutor tutor;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
+    private Tutor tutor;
 
-//    @ManyToOne
-//    @JoinColumn(name = "serie_id")
-//    private Serie serie;
+    @ManyToOne
+    @JoinColumn(name = "serie_id", referencedColumnName = "id")
+    private Serie serie;
 
 
-//      @ManyToOne
-//    @JoinColumn(name = "paiement_id")
-//    private Paiement paiement;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @NotEmpty
+    private List<Payment> payment;
 
 
     @Column(name = "create_at", nullable = false)

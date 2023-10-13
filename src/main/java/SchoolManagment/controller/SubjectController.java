@@ -2,8 +2,6 @@ package SchoolManagment.controller;
 
 import SchoolManagment.entity.Subject;
 import SchoolManagment.serviceImpl.SubjectServiceImpl;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,7 @@ import java.util.List;
 @RequestMapping(path = "subject")
 public class SubjectController {
 
-    private SubjectServiceImpl subjectService;
+    private final SubjectServiceImpl subjectService;
 
     public SubjectController(SubjectServiceImpl subjectService) {
         this.subjectService = subjectService;
@@ -38,14 +36,14 @@ public class SubjectController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Subject getAdmin(@PathVariable Long id) {
+    public Subject getAdmin(@PathVariable String id) {
         return this.subjectService.getSubject(id);
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateSubject(@PathVariable Long id, @RequestBody Subject subject) {
+    public void updateSubject(@PathVariable String id, @RequestBody Subject subject) {
         this.subjectService.updateSubject(id, subject);
         log.info("Mise a jour effectuee avec succes !");
     }
@@ -59,7 +57,7 @@ public class SubjectController {
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteSubject(@PathVariable Long id) {
+    public void deleteSubject(@PathVariable String id) {
         this.subjectService.deleteSubjectByid(id);
         log.info("Subject supprime avec succes !");
     }

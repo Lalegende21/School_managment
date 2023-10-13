@@ -4,8 +4,6 @@ import SchoolManagment.Exception.LevelException;
 import SchoolManagment.entity.Level;
 import SchoolManagment.repository.LevelRepo;
 import SchoolManagment.serviceImpl.service.LevelService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +13,11 @@ import java.util.Optional;
 @Service
 public class LevelServiceImpl implements LevelService {
 
-    private LevelRepo levelRepo;
+    private final LevelRepo levelRepo;
+
+    public LevelServiceImpl(LevelRepo levelRepo) {
+        this.levelRepo = levelRepo;
+    }
 
     @Override
     public String saveLevel(Level level) {
@@ -37,16 +39,16 @@ public class LevelServiceImpl implements LevelService {
     }
 
     @Override
-    public Level getLevel(Long id) {
+    public Level getLevel(String id) {
         Optional<Level> optionalLevel = this.levelRepo.findById(id);
         return optionalLevel.orElseThrow(() -> new RuntimeException(LevelException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updateLevel(Long id, Level level) {
+    public String updateLevel(String id, Level level) {
         Level levelUpdated = this.getLevel(id);
 
-        if (levelUpdated.getId() == level.getId()) {
+        if (levelUpdated.getId().equals(level.getId())) {
             levelUpdated.setName(level.getName());
             levelUpdated.setType(level.getType());
             this.levelRepo.save(levelUpdated);
@@ -63,7 +65,7 @@ public class LevelServiceImpl implements LevelService {
     }
 
     @Override
-    public void deleteLevelByid(Long id) {
+    public void deleteLevelByid(String id) {
         this.levelRepo.deleteById(id);
     }
 }

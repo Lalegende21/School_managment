@@ -4,8 +4,6 @@ import SchoolManagment.Exception.AdminException;
 import SchoolManagment.entity.Admin;
 import SchoolManagment.repository.AdminRepo;
 import SchoolManagment.serviceImpl.service.AdminService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +13,7 @@ import java.util.Optional;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    private AdminRepo adminRepo;
+    private final AdminRepo adminRepo;
 
     public AdminServiceImpl(AdminRepo adminRepo) {
         this.adminRepo = adminRepo;
@@ -46,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
 
     //Methode pour afficher un admin grace a son id
     @Override
-    public Admin getAdmin(Long id) {
+    public Admin getAdmin(String id) {
         Optional<Admin> optionalAdmin = this.adminRepo.findById(id);
 
         return optionalAdmin.orElseThrow(() -> new RuntimeException("Admin ayant l'id "+id+" pas trouve!"));
@@ -55,11 +53,11 @@ public class AdminServiceImpl implements AdminService {
 
     //Methode pour faire la MAJ d'un admin
     @Override
-    public String updateAdmin(Long id, Admin admin) {
+    public String updateAdmin(String id, Admin admin) {
 
         Admin adminUpdate = this.getAdmin(id);
 
-        if (adminUpdate.getId() == admin.getId()) {
+        if (adminUpdate.getId().equals(admin.getId())) {
             adminUpdate.setFirstname(admin.getFirstname());
             adminUpdate.setLastname(admin.getLastname());
             adminUpdate.setEmail(admin.getEmail());
@@ -82,7 +80,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteAdminByid(Long id) {
+    public void deleteAdminByid(String id) {
         this.adminRepo.deleteById(id);
     }
 }

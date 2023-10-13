@@ -39,14 +39,14 @@ public class LevelController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Level getLevel(@PathVariable Long id) {
+    public Level getLevel(@PathVariable String id) {
         return this.levelService.getLevel(id);
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateLevel(@PathVariable Long id, @RequestBody Level level) {
+    public void updateLevel(@PathVariable String id, @RequestBody Level level) {
         this.levelService.updateLevel(id, level);
         log.info("Mise a jour effectuee avec succes !");
     }
@@ -60,7 +60,7 @@ public class LevelController {
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteLevel(@PathVariable Long id) {
+    public void deleteLevel(@PathVariable String id) {
         this.levelService.deleteLevelByid(id);
         log.info("Level supprime avec succes !");
     }

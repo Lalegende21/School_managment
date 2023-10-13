@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class SubjectServiceImpl implements SubjectService {
 
-    private SubjectRepo subjectRepo;
+    private final SubjectRepo subjectRepo;
 
     public SubjectServiceImpl(SubjectRepo subjectRepo) {
         this.subjectRepo = subjectRepo;
@@ -39,17 +39,17 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject getSubject(Long id) {
+    public Subject getSubject(String id) {
         Optional<Subject> optionalSubject = this.subjectRepo.findById(id);
 
         return optionalSubject.orElseThrow(() -> new RuntimeException(SubjectException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updateSubject(Long id, Subject subject) {
+    public String updateSubject(String id, Subject subject) {
         Subject subjectUpdated = this.getSubject(id);
 
-        if (subjectUpdated.getId() == subject.getId()) {
+        if (subjectUpdated.getId().equals(subject.getId())) {
             subjectUpdated.setName(subject.getName());
             subjectUpdated.setCoeff(subject.getCoeff());
             this.subjectRepo.save(subjectUpdated);
@@ -66,7 +66,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void deleteSubjectByid(Long id) {
+    public void deleteSubjectByid(String id) {
         this.subjectRepo.deleteById(id);
     }
 }

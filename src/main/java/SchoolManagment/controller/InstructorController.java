@@ -2,9 +2,6 @@ package SchoolManagment.controller;
 
 import SchoolManagment.entity.Instructor;
 import SchoolManagment.serviceImpl.InstructorServiceImpl;
-import SchoolManagment.serviceImpl.service.InstructorService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,14 +36,14 @@ public class InstructorController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Instructor getInstructor(@PathVariable Long id) {
+    public Instructor getInstructor(@PathVariable String id) {
         return this.instructorService.getInstructor(id);
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateAdmin(@PathVariable Long id, @RequestBody Instructor instructor) {
+    public void updateAdmin(@PathVariable String id, @RequestBody Instructor instructor) {
         this.instructorService.updateInstructor(id, instructor);
         log.info("Mise a jour effectuee avec succes !");
     }
@@ -60,7 +57,7 @@ public class InstructorController {
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteInstructor(@PathVariable Long id) {
+    public void deleteInstructor(@PathVariable String id) {
         this.instructorService.deleteInstructorByid(id);
         log.info("Instructeur supprime avec succes !");
     }

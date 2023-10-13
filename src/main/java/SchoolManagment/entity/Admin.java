@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class Admin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "firstname", nullable = false)
     @NotEmpty
@@ -46,6 +47,13 @@ public class Admin {
     @Column(name = "image", nullable = false, unique = true)
     @NotEmpty
     private String image;
+
+
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private List<Student> students;
+
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private List<Instructor> instructors;
 
 
     @Column(name = "create_at", nullable = false)

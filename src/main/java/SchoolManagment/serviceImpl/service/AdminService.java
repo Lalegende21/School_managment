@@ -15,14 +15,14 @@ public interface AdminService {
     List<Admin> getAllAdmin();
 
     //Afficher un admin par son id
-    Admin getAdmin(Long id);
+    Admin getAdmin(String id);
 
     //MAJ des donnees d'un admin
-    String updateAdmin(Long id, Admin admin);
+    String updateAdmin(String id, Admin admin);
 
     //Suppression de tous les admin
     void deleteAdmin();
 
     //Suppression d'un admin par id
-    void deleteAdminByid(Long id);
+    void deleteAdminByid(String id);
 }

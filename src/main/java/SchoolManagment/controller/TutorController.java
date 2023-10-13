@@ -2,7 +2,6 @@ package SchoolManagment.controller;
 
 import SchoolManagment.entity.Tutor;
 import SchoolManagment.serviceImpl.TutorServiceImpl;
-import SchoolManagment.serviceImpl.service.TutorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,7 @@ import java.util.List;
 @RequestMapping(path = "tutor")
 public class TutorController {
 
-    private TutorServiceImpl tutorService;
+    private final TutorServiceImpl tutorService;
 
     public TutorController(TutorServiceImpl tutorService) {
         this.tutorService = tutorService;
@@ -37,14 +36,14 @@ public class TutorController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Tutor getAdmin(@PathVariable Long id) {
+    public Tutor getAdmin(@PathVariable String id) {
         return this.tutorService.getTutor(id);
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateTutor(@PathVariable Long id, @RequestBody Tutor tutor) {
+    public void updateTutor(@PathVariable String id, @RequestBody Tutor tutor) {
         this.tutorService.updateTutor(id, tutor);
         log.info("Mise a jour effectuee avec succes !");
     }
@@ -58,7 +57,7 @@ public class TutorController {
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteTutor(@PathVariable Long id) {
+    public void deleteTutor(@PathVariable String id) {
         this.tutorService.deleteTutorByid(id);
         log.info("Tutor supprime avec succes !");
     }

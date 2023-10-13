@@ -13,7 +13,11 @@ import java.util.Optional;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    private PaymentRepo paymentRepo;
+    private final PaymentRepo paymentRepo;
+
+    public PaymentServiceImpl(PaymentRepo paymentRepo) {
+        this.paymentRepo = paymentRepo;
+    }
 
     @Override
     public String savePayment(Payment payment) {
@@ -28,16 +32,16 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment getPayment(Long id) {
+    public Payment getPayment(String id) {
         Optional<Payment> optionalPayment = this.paymentRepo.findById(id);
         return optionalPayment.orElseThrow(() -> new RuntimeException(PaymentException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updatePayment(Long id, Payment payment) {
+    public String updatePayment(String id, Payment payment) {
         Payment paymentUpdated = this.getPayment(id);
 
-        if (paymentUpdated.getId() == payment.getId()) {
+        if (paymentUpdated.getId().equals(payment.getId())) {
             paymentUpdated.setAmount(payment.getAmount());
             this.paymentRepo.save(paymentUpdated);
             return PaymentException.SUCCESSFUL;
@@ -53,7 +57,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void deletePaymentByid(Long id) {
+    public void deletePaymentByid(String id) {
         this.paymentRepo.deleteById(id);
     }
 }

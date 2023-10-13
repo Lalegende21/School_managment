@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class Level {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "name", nullable = false, unique = true)
     @NotEmpty
@@ -27,6 +28,10 @@ public class Level {
     @NotEmpty
     @Size(min = 6, max = 20, message = "name should have minimum 6 characters and maximum 20 characters")
     private String type;            //Francophone ou anglophone
+
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
+    @NotEmpty
+    private List<Subject> subjects;
 
     @Column(name = "create_at", nullable = false)
     @NotEmpty

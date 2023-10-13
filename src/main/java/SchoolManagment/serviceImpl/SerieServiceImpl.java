@@ -4,8 +4,6 @@ import SchoolManagment.Exception.SerieException;
 import SchoolManagment.entity.Serie;
 import SchoolManagment.repository.SerieRepo;
 import SchoolManagment.serviceImpl.service.SerieService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +13,7 @@ import java.util.Optional;
 @Service
 public class SerieServiceImpl implements SerieService {
 
-    private SerieRepo serieRepo;
+    private final SerieRepo serieRepo;
 
     public SerieServiceImpl(SerieRepo serieRepo) {
         this.serieRepo = serieRepo;
@@ -41,16 +39,16 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public Serie getSerie(Long id) {
+    public Serie getSerie(String id) {
         Optional<Serie> optionalSerie = this.serieRepo.findById(id);
         return optionalSerie.orElseThrow(() -> new RuntimeException(SerieException.DATA_NOT_FOUND));
     }
 
     @Override
-    public String updateSerie(Long id, Serie serie) {
+    public String updateSerie(String id, Serie serie) {
         Serie serieUpdated = this.getSerie(id);
 
-        if (serieUpdated.getId() == serie.getId()) {
+        if (serieUpdated.getId().equals(serie.getId())) {
             serieUpdated.setName(serie.getName());
             serieUpdated.setAmount(serie.getAmount());
             serieUpdated.setFirstinstallment(serie.getFirstinstallment());
@@ -69,7 +67,7 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public void deleteSerieByid(Long id) {
+    public void deleteSerieByid(String id) {
         this.serieRepo.deleteById(id);
     }
 }

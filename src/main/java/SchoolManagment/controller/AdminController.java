@@ -39,14 +39,14 @@ public class AdminController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Admin getAdmin(@PathVariable Long id) {
+    public Admin getAdmin(@PathVariable String id) {
         return this.adminService.getAdmin(id);
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateAdmin(@PathVariable Long id, @RequestBody Admin admin) {
+    public void updateAdmin(@PathVariable String id, @RequestBody Admin admin) {
         this.adminService.updateAdmin(id, admin);
         log.info("Mise a jour effectuee avec succes !");
     }
@@ -60,7 +60,7 @@ public class AdminController {
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteAdmin(@PathVariable Long id) {
+    public void deleteAdmin(@PathVariable String id) {
         this.adminService.deleteAdminByid(id);
         log.info("Admin supprime avec succes !");
     }

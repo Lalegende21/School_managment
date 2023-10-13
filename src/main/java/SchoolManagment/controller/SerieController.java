@@ -2,9 +2,6 @@ package SchoolManagment.controller;
 
 import SchoolManagment.entity.Serie;
 import SchoolManagment.serviceImpl.SerieServiceImpl;
-import SchoolManagment.serviceImpl.service.SerieService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +13,7 @@ import java.util.List;
 @RequestMapping(path = "serie")
 public class SerieController {
 
-    private SerieServiceImpl serieService;
+    private final SerieServiceImpl serieService;
 
     public SerieController(SerieServiceImpl serieService) {
         this.serieService = serieService;
@@ -39,14 +36,14 @@ public class SerieController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Serie getAdmin(@PathVariable Long id) {
+    public Serie getAdmin(@PathVariable String id) {
         return this.serieService.getSerie(id);
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateSerie(@PathVariable Long id, @RequestBody Serie serie) {
+    public void updateSerie(@PathVariable String id, @RequestBody Serie serie) {
         this.serieService.updateSerie(id, serie);
         log.info("Mise a jour effectuee avec succes !");
     }
@@ -60,7 +57,7 @@ public class SerieController {
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteAdmin(@PathVariable Long id) {
+    public void deleteAdmin(@PathVariable String id) {
         this.serieService.deleteSerieByid(id);
         log.info("Serie supprime avec succes !");
     }

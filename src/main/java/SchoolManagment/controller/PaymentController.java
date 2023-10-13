@@ -2,9 +2,6 @@ package SchoolManagment.controller;
 
 import SchoolManagment.entity.Payment;
 import SchoolManagment.serviceImpl.PaymentServiceImpl;
-import SchoolManagment.serviceImpl.service.PaymentService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +13,7 @@ import java.util.List;
 @RequestMapping(path = "payment")
 public class PaymentController {
 
-    private PaymentServiceImpl paymentService;
+    private final PaymentServiceImpl paymentService;
 
     public PaymentController(PaymentServiceImpl paymentService) {
         this.paymentService = paymentService;
@@ -39,14 +36,14 @@ public class PaymentController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Payment getPayment(@PathVariable Long id) {
+    public Payment getPayment(@PathVariable String id) {
         return this.paymentService.getPayment(id);
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updatePayment(@PathVariable Long id, @RequestBody Payment payment) {
+    public void updatePayment(@PathVariable String id, @RequestBody Payment payment) {
         this.paymentService.updatePayment(id, payment);
         log.info("Mise a jour effectuee avec succes !");
     }
@@ -60,7 +57,7 @@ public class PaymentController {
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deletePayment(@PathVariable Long id) {
+    public void deletePayment(@PathVariable String id) {
         this.paymentService.deletePaymentByid(id);
         log.info("Paiement supprime avec succes !");
     }

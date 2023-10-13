@@ -6,9 +6,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class Instructor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "firstname", nullable = false)
     @NotEmpty
@@ -48,14 +48,13 @@ public class Instructor {
     @NotEmpty
     private String image;
 
-//    @ManyToOne
-//    @JoinColumn(name = "admin_id")
-//    private Admin admin;
+    @ManyToOne
+    @JoinColumn(name = "admin_id", referencedColumnName = "id")
+    private Admin admin;
 
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
+    private List<Subject> subject;
 
-//    @ManyToOne
-//    @JoinColumn(name = "subject_id")
-//    private Subject subject;
 
     @Column(name = "create_at", nullable = false)
     @NotEmpty
