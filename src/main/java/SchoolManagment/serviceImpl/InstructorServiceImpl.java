@@ -30,7 +30,7 @@ public class InstructorServiceImpl implements InstructorService {
             return InstructorException.SUCCESSFUL;
         }
         else {
-            return InstructorException.INVALID_DATA;
+            return InstructorException.DATA_NOT_FOUND;
         }
     }
 

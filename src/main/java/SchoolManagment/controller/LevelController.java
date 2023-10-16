@@ -1,30 +1,33 @@
 package SchoolManagment.controller;
 
+import SchoolManagment.dto.LevelDTO;
 import SchoolManagment.entity.Level;
+import SchoolManagment.model.LevelMapper;
 import SchoolManagment.serviceImpl.LevelServiceImpl;
-import SchoolManagment.serviceImpl.service.LevelService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
 @RequestMapping(path = "level")
 public class LevelController {
 
-    private LevelServiceImpl levelService;
+    private final LevelServiceImpl levelService;
+    private final LevelMapper levelMapper;
 
-    public LevelController(LevelServiceImpl levelService) {
+    public LevelController(LevelServiceImpl levelService, LevelMapper levelMapper) {
         this.levelService = levelService;
+        this.levelMapper = levelMapper;
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void Create(@RequestBody Level level) {
+    public void Create(@RequestBody LevelDTO levelDTO) {
+        Level level = levelMapper.mapDTOToLevel(levelDTO);
         this.levelService.saveLevel(level);
         log.info("Level enregistre avec succes !");
     }
@@ -32,21 +35,30 @@ public class LevelController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
-    public List<Level> getAllLevel() {
-        return this.levelService.getAllLevel();
+    public List<LevelDTO> getAllLevel() {
+        List<Level> levels = this.levelService.getAllLevel();
+        return levels.stream()
+                .map(level -> levelMapper.mapLevelToDto(level))
+                .collect(Collectors.toList());
+        //        return this.levelService.getAllLevel();
     }
 
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
-    public Level getLevel(@PathVariable String id) {
-        return this.levelService.getLevel(id);
+    public LevelDTO getLevel(@PathVariable String id) {
+        Level level = this.levelService.getLevel(id);
+
+        LevelDTO levelDTO = levelMapper.mapLevelToDto(level);
+
+        return levelDTO;
     }
 
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateLevel(@PathVariable String id, @RequestBody Level level) {
+    public void updateLevel(@PathVariable String id, @RequestBody LevelDTO levelDTO) {
+        Level level = levelMapper.mapDTOToLevel(levelDTO);
         this.levelService.updateLevel(id, level);
         log.info("Mise a jour effectuee avec succes !");
     }

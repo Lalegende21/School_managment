@@ -1,5 +1,6 @@
 package SchoolManagment.entity;
 
+import SchoolManagment.enums.LevelType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -26,8 +27,7 @@ public class Level {
 
     @Column(name = "type", nullable = false)
     @NotEmpty
-    @Size(min = 6, max = 20, message = "name should have minimum 6 characters and maximum 20 characters")
-    private String type;            //Francophone ou anglophone
+    private LevelType type;            //Francophone ou anglophone
 
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
     @NotEmpty
