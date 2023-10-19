@@ -1,13 +1,15 @@
 package SchoolManagment.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
+@NoArgsConstructor
 public class StudentDTO {
 
     private String id;
@@ -28,9 +30,10 @@ public class StudentDTO {
 
     private SerieDTO serie;
 
+    @JsonIgnore
     private List<PaymentDTO> payment;
 
-    private LocalDateTime create_at;
-
-    private Timestamp update_at;
+//    private LocalDateTime create_at;
+//
+//    private Timestamp update_at;
 }

@@ -1,6 +1,6 @@
 package SchoolManagment.serviceImpl;
 
-import SchoolManagment.Exception.SubjectException;
+import SchoolManagment.exception.SubjectException;
 import SchoolManagment.entity.Subject;
 import SchoolManagment.repository.SubjectRepo;
 import SchoolManagment.serviceImpl.service.SubjectService;

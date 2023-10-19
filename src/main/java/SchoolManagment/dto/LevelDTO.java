@@ -1,16 +1,14 @@
 package SchoolManagment.dto;
 
-import SchoolManagment.entity.Level;
 import SchoolManagment.enums.LevelType;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class LevelDTO {
 
     private String id;
@@ -19,10 +17,11 @@ public class LevelDTO {
 
     private LevelType type;            //Francophone ou anglophone
 
+    @JsonIgnore
     private List<SubjectDTO> subjects;
 
-    private LocalDateTime create_at;
-
-    private Timestamp update_at;
+//    private LocalDateTime create_at;
+//
+//    private Timestamp update_at;
 
 }

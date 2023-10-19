@@ -1,8 +1,6 @@
 package SchoolManagment.model;
 
-import SchoolManagment.dto.AdminDTO;
 import SchoolManagment.dto.TutorDTO;
-import SchoolManagment.entity.Admin;
 import SchoolManagment.entity.Tutor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TutorMapper {
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
 
     public TutorDTO mapTutorToDto(Tutor tutor){

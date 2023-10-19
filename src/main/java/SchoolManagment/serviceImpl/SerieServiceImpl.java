@@ -1,6 +1,6 @@
 package SchoolManagment.serviceImpl;
 
-import SchoolManagment.Exception.SerieException;
+import SchoolManagment.exception.SerieException;
 import SchoolManagment.entity.Serie;
 import SchoolManagment.repository.SerieRepo;
 import SchoolManagment.serviceImpl.service.SerieService;
@@ -21,16 +21,9 @@ public class SerieServiceImpl implements SerieService {
 
     @Override
     public String saveSerie(Serie serie) {
-        Serie serieName = this.serieRepo.findByName(serie.getName());
-
-        if (serieName == null) {
             serie.setCreate_at(LocalDateTime.now());
-            this.serieRepo.save(serieName);
+            this.serieRepo.save(serie);
             return SerieException.SUCCESSFUL;
-        }
-        else {
-            return SerieException.SOMETHING_WENT_WRONG;
-        }
     }
 
     @Override

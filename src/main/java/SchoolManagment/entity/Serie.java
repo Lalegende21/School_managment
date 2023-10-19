@@ -2,6 +2,7 @@ package SchoolManagment.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,27 +28,32 @@ public class Serie {
     private String name;
 
     @Column(name = "registration_fee", nullable = false)
-    @NotEmpty
+    @NotNull
     private BigDecimal amount;
 
     @Column(name = "first-installment", nullable = false)
-    @NotEmpty
+    @NotNull
     private BigDecimal firstinstallment;
 
     @Column(name = "second-installment", nullable = false)
-    @NotEmpty
+    @NotNull
     private BigDecimal secondinstallment;
 
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
-    @NotEmpty
     private List<Student> students;
 
-    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
-    @NotEmpty
-    private List<Serie_Subject> serie_subjects;
+//    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
+//    private List<Serie_Subject> serieSubjects;
+
+    @ManyToMany
+    @JoinTable(
+            name = "serie_subject",
+            joinColumns = @JoinColumn(name = "serie_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    private List<Subject> subjects = new ArrayList<>();
 
     @Column(name = "create_at", nullable = false)
-    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")

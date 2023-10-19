@@ -1,6 +1,6 @@
 package SchoolManagment.serviceImpl;
 
-import SchoolManagment.Exception.PaymentException;
+import SchoolManagment.exception.PaymentException;
 import SchoolManagment.entity.Payment;
 import SchoolManagment.repository.PaymentRepo;
 import SchoolManagment.serviceImpl.service.PaymentService;

@@ -2,6 +2,7 @@ package SchoolManagment.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,6 +11,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -36,7 +38,7 @@ public class Student {
     private String matricule;
 
     @Column(name = "date_of_birth", nullable = false)
-    @NotEmpty
+    @NotNull
     private Date date_of_birth;
 
     @Column(name = "image", nullable = false, unique = true)
@@ -58,16 +60,13 @@ public class Student {
 
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    @NotEmpty
     private List<Payment> payment;
 
 
     @Column(name = "create_at", nullable = false)
-    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")
     @UpdateTimestamp
     private Timestamp update_at;
-
 }

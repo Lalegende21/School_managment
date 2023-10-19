@@ -1,23 +1,18 @@
 package SchoolManagment.dto;
 
-import lombok.Builder;
 import lombok.Data;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class Serie_SubjectDTO {
-
-    private String id;
 
     private SubjectDTO subjectDTO;
 
     private SerieDTO serieDTO;
 
-    private LocalDateTime create_at;
-
-    private Timestamp update_at;
+//    private LocalDateTime create_at;
+//
+//    private Timestamp update_at;
 
 }

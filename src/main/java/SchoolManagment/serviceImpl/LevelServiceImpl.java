@@ -1,6 +1,6 @@
 package SchoolManagment.serviceImpl;
 
-import SchoolManagment.Exception.LevelException;
+import SchoolManagment.exception.LevelException;
 import SchoolManagment.entity.Level;
 import SchoolManagment.repository.LevelRepo;
 import SchoolManagment.serviceImpl.service.LevelService;

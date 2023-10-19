@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,8 +38,12 @@ public class Subject {
     @JoinColumn(name = "level_id", referencedColumnName = "id")
     private Level level;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private List<Serie_Subject> serie_subjects;
+//    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+//    private List<Serie_Subject> serieSubjects;
+
+
+    @ManyToMany(mappedBy = "subjects")
+    private List<Serie> series = new ArrayList<>();
 
     @Column(name = "create_at", nullable = false)
     private LocalDateTime create_at;

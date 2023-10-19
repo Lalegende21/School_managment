@@ -1,12 +1,11 @@
 package SchoolManagment.dto;
 
-import SchoolManagment.entity.Tutor;
+import SchoolManagment.enums.TutorType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class TutorDTO {
@@ -15,15 +14,16 @@ public class TutorDTO {
 
     private String fullName;
 
-    private String type;
+    private TutorType type;
 
     private String email;
 
     private String phoneNumber;
 
+    @JsonIgnore
     private List<StudentDTO> students;
 
-    private LocalDateTime create_at;
-
-    private Timestamp update_at;
+//    private LocalDateTime create_at;
+//
+//    private Timestamp update_at;
 }

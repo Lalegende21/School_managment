@@ -26,15 +26,12 @@ public class Level {
     private String name;
 
     @Column(name = "type", nullable = false)
-    @NotEmpty
     private LevelType type;            //Francophone ou anglophone
 
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL)
-    @NotEmpty
     private List<Subject> subjects;
 
     @Column(name = "create_at", nullable = false)
-    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")

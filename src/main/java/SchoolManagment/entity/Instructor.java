@@ -57,7 +57,6 @@ public class Instructor {
 
 
     @Column(name = "create_at", nullable = false)
-    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")

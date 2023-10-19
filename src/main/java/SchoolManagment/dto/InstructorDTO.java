@@ -1,16 +1,13 @@
 package SchoolManagment.dto;
 
-import SchoolManagment.entity.Admin;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class InstructorDTO {
 
     private String id;
@@ -27,12 +24,14 @@ public class InstructorDTO {
 
     private String image;
 
-    private Admin admin;
+    @JsonIgnore
+    private AdminDTO admin;
 
+    @JsonIgnore
     private List<SubjectDTO> subject;
 
-    private LocalDateTime create_at;
-
-    private Timestamp update_at;
+//    private LocalDateTime create_at;
+//
+//    private Timestamp update_at;
 
 }

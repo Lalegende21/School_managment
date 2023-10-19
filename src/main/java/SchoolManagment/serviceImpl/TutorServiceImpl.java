@@ -1,6 +1,6 @@
 package SchoolManagment.serviceImpl;
 
-import SchoolManagment.Exception.TutorException;
+import SchoolManagment.exception.TutorException;
 import SchoolManagment.entity.Tutor;
 import SchoolManagment.repository.TutorRepo;
 import SchoolManagment.serviceImpl.service.TutorService;

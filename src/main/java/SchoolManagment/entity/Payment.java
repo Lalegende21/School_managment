@@ -2,6 +2,7 @@ package SchoolManagment.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,7 +20,7 @@ public class Payment {
     private String id;
 
     @Column(name = "amount", nullable = false)
-    @NotEmpty
+    @NotNull
     private BigDecimal amount;
 
     @ManyToOne
@@ -27,7 +28,6 @@ public class Payment {
     private Student student;
 
     @Column(name = "create_at", nullable = false)
-    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")

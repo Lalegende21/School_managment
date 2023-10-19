@@ -1,4 +1,4 @@
-package SchoolManagment.Exception;
+package SchoolManagment.exception;
 
 public class InstructorException extends RuntimeException {
 

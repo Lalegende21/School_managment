@@ -2,13 +2,14 @@ package SchoolManagment.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class PaymentDTO {
 
     private String id;
@@ -17,8 +18,8 @@ public class PaymentDTO {
 
     private StudentDTO student;
 
-    private LocalDateTime create_at;
-
-    private Timestamp update_at;
+//    private LocalDateTime create_at;
+//
+//    private Timestamp update_at;
 
 }

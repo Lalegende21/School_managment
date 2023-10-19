@@ -2,13 +2,16 @@ package SchoolManagment.serviceImpl.service;
 
 
 import SchoolManagment.entity.Student;
+import SchoolManagment.entity.Tutor;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface StudentService {
 
     //Enregistrer un student
     String saveStudent(Student student);
+
 
     //Afficher tous les student
     List<Student> getAllStudent();

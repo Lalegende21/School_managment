@@ -1,5 +1,6 @@
 package SchoolManagment.entity;
 
+import SchoolManagment.enums.TutorType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -25,9 +27,7 @@ public class Tutor {
     private String fullName;
 
     @Column(name = "type", nullable = false)
-    @NotEmpty
-    @Size(min = 5, max = 50, message = "type should have minimum 5 characters and have maximum 50 characters")
-    private String type;
+    private TutorType type;
 
     @Column(name = "email", nullable = false, unique = true)
     @NotEmpty
@@ -40,11 +40,9 @@ public class Tutor {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL)
-    @NotEmpty
     private List<Student> students;
 
     @Column(name = "create_at", nullable = false)
-    @NotEmpty
     private LocalDateTime create_at;
 
     @Column(name = "update_at")

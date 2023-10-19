@@ -1,6 +1,6 @@
 package SchoolManagment.serviceImpl;
 
-import SchoolManagment.Exception.AdminException;
+import SchoolManagment.exception.AdminException;
 import SchoolManagment.entity.Admin;
 import SchoolManagment.repository.AdminRepo;
 import SchoolManagment.serviceImpl.service.AdminService;
