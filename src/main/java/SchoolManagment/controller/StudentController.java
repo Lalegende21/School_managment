@@ -2,18 +2,17 @@ package SchoolManagment.controller;
 
 import SchoolManagment.dto.StudentDTO;
 import SchoolManagment.entity.Student;
+import SchoolManagment.files.CloudinaryServiceImpl;
 import SchoolManagment.model.StudentMapper;
-import SchoolManagment.repository.StudentRepo;
-import SchoolManagment.repository.TutorRepo;
 import SchoolManagment.serviceImpl.StudentServiceImpl;
-import SchoolManagment.serviceImpl.TutorServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,36 +23,45 @@ public class StudentController {
 
     private final StudentServiceImpl studentService;
 
-    private final StudentRepo studentRepo;
-
-    private final TutorRepo tutorRepo;
-
-    private final TutorServiceImpl tutorService;
+    private final CloudinaryServiceImpl cloudinaryService;
 
     private final StudentMapper studentMapper;
 
 
-    //Methode pour save un etudiant
+
+    //Method to save a student
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping
-    public void Create(@RequestBody Student student) {
-        //Student student = studentMapper.mapDTOToStudent(studentDTO);
+    @PostMapping(path = "saveStudent")
+    public String Create(@RequestBody StudentDTO studentDTO) {
+        Student student = studentMapper.mapDTOToStudent(studentDTO);
         this.studentService.saveStudent(student);
-        log.info("Student enregistre avec succes !");
+        return "Student register successfully!";
+    }
+
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping(path = "uploadImage")
+    public String uploadImage(@RequestParam("image") MultipartFile file){
+        Map data = this.cloudinaryService.upload(file);
+        String imageUrl = (String) data.get("secure_url");
+        System.out.println(imageUrl);
+        return "Image uploading successfully!";
     }
 
 
 
+    //Method to insert student with tutor
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(path = "/save-with-tutor")
-    public void createWithTutor(@RequestBody Student student) {
+    public String createWithTutor(@RequestBody StudentDTO studentDTO) {
+        Student student = studentMapper.mapDTOToStudent(studentDTO);
         this.studentService.saveStudentWithTutor(student);
+        return "Student register successfully!";
     }
 
 
 
-
-    //Methode pour lire un etudiant
+    //Method to read all students
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
     public List<StudentDTO> getAllStudent() {
@@ -65,7 +73,7 @@ public class StudentController {
 
 
 
-    //Methode pour lire un etudiant par son id
+    //Method to read student by id
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
     public StudentDTO getAdmin(@PathVariable String id) {
@@ -77,29 +85,29 @@ public class StudentController {
     }
 
 
-    //Methode pour modifier un etudiant
+    //Method to update student
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateStudent(@PathVariable String id, @RequestBody StudentDTO studentDTO) {
+    public String updateStudent(@PathVariable String id, @RequestBody StudentDTO studentDTO) {
         Student student = studentMapper.mapDTOToStudent(studentDTO);
         this.studentService.updateStudent(id, student);
-        log.info("Mise a jour effectuee avec succes !");
+        return "Update completed successfully!";
     }
 
-    //Methode pour supprimer un etudiant
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    //Method to delete all students
+    @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping
-    public void deleteAllStudent() {
+    public String deleteAllStudent() {
         this.studentService.deleteStudent();
-        log.info("Tous les student ont ete supprimes avec succes !");
+        return "All students have been successfully deleted!";
     }
 
 
-    //Methode pour supprimer un etudiant par son id
+    //Method to delete student by id
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteStudent(@PathVariable String id) {
-        this.studentService.deleteStudentByid(id);
-        log.info("Student supprime avec succes !");
+    public String deleteStudent(@PathVariable String id) {
+        this.studentService.deleteStudentById(id);
+        return "Student deleted successfully!";
     }
 }

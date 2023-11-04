@@ -1,27 +1,26 @@
 package SchoolManagment.serviceImpl.service;
 
 import SchoolManagment.entity.Level;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface LevelService {
 
-    //Enregistrer un salle
+    //Save level
     String saveLevel(Level level);
 
-    //Afficher tous les salle
+    //Read all levels
     List<Level> getAllLevel();
 
-    //Afficher un salle par son id
+    //Read level by id
     Level getLevel(String id);
 
-    //MAJ des donnees d'un salle
+    //Update level
     String updateLevel(String id, Level level);
 
-    //Suppression de tous les salle
+    //Delete all levels
     void deleteLevel();
 
-    //Suppression d'un salle par id
-    void deleteLevelByid(String id);
+    //Delete level by id
+    void deleteLevelById(String id);
 }

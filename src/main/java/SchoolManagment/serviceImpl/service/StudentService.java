@@ -2,29 +2,28 @@ package SchoolManagment.serviceImpl.service;
 
 
 import SchoolManagment.entity.Student;
-import SchoolManagment.entity.Tutor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface StudentService {
 
-    //Enregistrer un student
+    //Save student
     String saveStudent(Student student);
 
 
-    //Afficher tous les student
+    //read all student
     List<Student> getAllStudent();
 
-    //Afficher un student par son id
+    //read student by id
     Student getStudent(String id);
 
-    //MAJ des donnees d'un student
+    //Update student
     String updateStudent(String id, Student student);
 
-    //Suppression de tous les student
+    //Delete all student
     void deleteStudent();
 
-    //Suppression d'un student par id
-    void deleteStudentByid(String id);
+    //Delete student by id
+    void deleteStudentById(String id);
 }

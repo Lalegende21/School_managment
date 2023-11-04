@@ -44,9 +44,8 @@ public class Instructor {
     @Size(min = 9, max = 30, message = "firstname should have minimum 9 characters and maximum 30 characters")
     private String phoneNumber;
 
-    @Column(name = "image", nullable = false, unique = true)
-    @NotEmpty
-    private String image;
+    @OneToOne(mappedBy = "instructor", cascade = CascadeType.ALL)
+    private Image image;
 
     @ManyToOne
     @JoinColumn(name = "admin_id", referencedColumnName = "id")

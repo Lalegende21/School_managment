@@ -4,7 +4,7 @@ import SchoolManagment.dto.AdminDTO;
 import SchoolManagment.entity.Admin;
 import SchoolManagment.model.AdminMapper;
 import SchoolManagment.serviceImpl.AdminServiceImpl;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,27 +12,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@Slf4j
+@AllArgsConstructor
 @RequestMapping(path = "admin")
 public class AdminController {
 
     private final AdminServiceImpl adminService;
     private final AdminMapper adminMapper;
 
-    public AdminController(AdminServiceImpl adminService, AdminMapper adminMapper) {
-        this.adminService = adminService;
-        this.adminMapper = adminMapper;
-    }
 
+
+    //Method to save a admin
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void Create(@RequestBody AdminDTO adminDTO) {
+    public String Create(@RequestBody AdminDTO adminDTO) {
         Admin admin = adminMapper.mapDTOToAdmin(adminDTO);
         this.adminService.saveAdmin(admin);
-        log.info("Admin enregistre avec succes !");
+        return "Admin register successfully!";
     }
 
 
+    //Method to read all admins
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
     public List<AdminDTO> getAllAdmin() {
@@ -44,6 +43,8 @@ public class AdminController {
     }
 
 
+
+    //Method to read admin by id
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
     public AdminDTO getAdmin(@PathVariable String id) {
@@ -55,26 +56,34 @@ public class AdminController {
     }
 
 
+
+    //Method to update admin
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateAdmin(@PathVariable String id, @RequestBody AdminDTO adminDTO) {
+    public String updateAdmin(@PathVariable String id, @RequestBody AdminDTO adminDTO) {
         Admin admin = adminMapper.mapDTOToAdmin(adminDTO);
         this.adminService.updateAdmin(id, admin);
-        log.info("Mise a jour effectuee avec succes !");
+        return "Update completed successfully!";
     }
 
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+
+
+    //Method to delete all admins
+    @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping
-    public void deleteAllAdmin() {
+    public String deleteAllAdmin() {
         this.adminService.deleteAdmin();
-        log.info("Tous les admin ont ete supprimes avec succes !");
+        return "All admins have been successfully deleted!";
     }
 
+
+
+    //Method to delete admin by id
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteAdmin(@PathVariable String id) {
-        this.adminService.deleteAdminByid(id);
-        log.info("Admin supprime avec succes !");
+    public String deleteAdmin(@PathVariable String id) {
+        this.adminService.deleteAdminById(id);
+        return "Admin delete successfully!";
     }
 
 }

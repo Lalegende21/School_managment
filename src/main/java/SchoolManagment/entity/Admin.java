@@ -44,13 +44,11 @@ public class Admin {
     @Size(min = 9, max = 15, message = "hash should have minimum 9 characters and maximum 15 characters")
     private String phoneNumber;
 
-    @Column(name = "image", nullable = false, unique = true)
-    @NotEmpty
-    private String image;
-
+    @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL)
+    private Image image;
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-    private List<Student> students;
+    private List<Student> student;
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
     private List<Instructor> instructors;

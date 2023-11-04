@@ -4,6 +4,7 @@ import SchoolManagment.exception.InstructorException;
 import SchoolManagment.entity.Instructor;
 import SchoolManagment.repository.InstructorRepo;
 import SchoolManagment.serviceImpl.service.InstructorService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,14 +13,14 @@ import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class InstructorServiceImpl implements InstructorService {
 
     private final InstructorRepo instructorRepo;
 
-    public InstructorServiceImpl(InstructorRepo instructorRepo) {
-        this.instructorRepo = instructorRepo;
-    }
 
+
+    //Method to save instructor
     @Override
     public String saveInstructor(Instructor instructor) {
         Instructor instructorEmail = this.instructorRepo.findByEmail(instructor.getEmail());
@@ -34,18 +35,24 @@ public class InstructorServiceImpl implements InstructorService {
         }
     }
 
+
+    //Method to read all instructors
     @Override
     public List<Instructor> getAllInstructor() {
         return this.instructorRepo.findAll();
     }
 
+
+    //Method to read instructor by id
     @Override
     public Instructor getInstructor(String id) {
         Optional<Instructor> optionalInstructor = this.instructorRepo.findById(id);
 
-        return optionalInstructor.orElseThrow(() -> new RuntimeException("Admin ayant l'id "+id+" pas trouve!"));
+        return optionalInstructor.orElseThrow(() -> new RuntimeException("Instructor with id "+id+" not found!"));
     }
 
+
+    //Method to update instructor
     @Override
     public String updateInstructor(String id, Instructor instructor) {
         Instructor instructorUpdated = this.getInstructor(id);
@@ -65,13 +72,17 @@ public class InstructorServiceImpl implements InstructorService {
         }
     }
 
+
+    //Method to delete all instructors
     @Override
     public void deleteInstructor() {
         this.instructorRepo.deleteAll();
     }
 
+
+    //Method to delete instructor by id
     @Override
-    public void deleteInstructorByid(String id) {
+    public void deleteInstructorById(String id) {
         this.instructorRepo.deleteById(id);
     }
 }

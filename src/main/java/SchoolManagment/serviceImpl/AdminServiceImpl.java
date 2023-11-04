@@ -19,7 +19,7 @@ public class AdminServiceImpl implements AdminService {
         this.adminRepo = adminRepo;
     }
 
-    //Methode pour inserer des admin
+    //Method to save admin
     @Override
     public String saveAdmin(Admin admin) {
 
@@ -35,23 +35,23 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    //Methode pour afficher tous les admin
+    //Method to read all admins
     @Override
     public List<Admin> getAllAdmin() {
         return this.adminRepo.findAll();
     }
 
 
-    //Methode pour afficher un admin grace a son id
+    //Method to read admin by id
     @Override
     public Admin getAdmin(String id) {
         Optional<Admin> optionalAdmin = this.adminRepo.findById(id);
 
-        return optionalAdmin.orElseThrow(() -> new RuntimeException("Admin ayant l'id "+id+" pas trouve!"));
+        return optionalAdmin.orElseThrow(() -> new RuntimeException("Admin with id "+id+" not found!"));
     }
 
 
-    //Methode pour faire la MAJ d'un admin
+    //Method to update admin
     @Override
     public String updateAdmin(String id, Admin admin) {
 
@@ -73,14 +73,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
-    //Methode  pour supprimer tous les admin
+    //Method to delete all admins
     @Override
     public void deleteAdmin() {
         this.adminRepo.deleteAll();
     }
 
+
+    //Method to delete admin by id
     @Override
-    public void deleteAdminByid(String id) {
+    public void deleteAdminById(String id) {
         this.adminRepo.deleteById(id);
     }
 }

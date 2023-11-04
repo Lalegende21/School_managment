@@ -2,27 +2,26 @@ package SchoolManagment.serviceImpl.service;
 
 
 import SchoolManagment.entity.Admin;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface AdminService {
 
-    //Enregistrer un admin
+    //Save admin
     String saveAdmin(Admin admin);
 
-    //Afficher tous les admin
+    //Read all admins
     List<Admin> getAllAdmin();
 
-    //Afficher un admin par son id
+    //Read admin by id
     Admin getAdmin(String id);
 
-    //MAJ des donnees d'un admin
+    //Update admin
     String updateAdmin(String id, Admin admin);
 
-    //Suppression de tous les admin
+    //Delete all admins
     void deleteAdmin();
 
-    //Suppression d'un admin par id
-    void deleteAdminByid(String id);
+    //Delete admin by id
+    void deleteAdminById(String id);
 }

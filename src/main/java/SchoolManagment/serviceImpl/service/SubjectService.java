@@ -6,21 +6,21 @@ import java.util.List;
 
 public interface SubjectService {
 
-    //Enregistrer un subject
+    //Save subject
     String saveSubject(Subject subject);
 
-    //Afficher tous les subject
+    //Read all subjects
     List<Subject> getAllSubject();
 
-    //Afficher un subject par son id
+    //Read subject by id
     Subject getSubject(String id);
 
-    //MAJ des donnees d'un subject
+    //Update subject
     String updateSubject(String id, Subject subject);
 
-    //Suppression de tous les subject
+    //Delete all subjects
     void deleteSubject();
 
-    //Suppression d'un subject par id
-    void deleteSubjectByid(String id);
+    //Delete subject by id
+    void deleteSubjectById(String id);
 }

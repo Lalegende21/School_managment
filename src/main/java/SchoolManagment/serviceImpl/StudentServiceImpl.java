@@ -1,15 +1,15 @@
 package SchoolManagment.serviceImpl;
 
-import SchoolManagment.dto.StudentDTO;
-import SchoolManagment.dto.TutorDTO;
 import SchoolManagment.entity.Student;
 import SchoolManagment.entity.Tutor;
 import SchoolManagment.exception.StudentException;
+import SchoolManagment.mails.EmailService;
 import SchoolManagment.repository.StudentRepo;
 import SchoolManagment.repository.TutorRepo;
 import SchoolManagment.serviceImpl.service.StudentService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,24 +18,27 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepo studentRepo;
     private final TutorRepo tutorRepo;
 
-    private final TutorServiceImpl tutorService;
+    private final EmailService emailService;
 
 
-    //Methode pour save un etudiant
+    //Method to save student
     @Override
     public String saveStudent(Student student) {
         Student studentMatricule = this.studentRepo.findByMatricule(student.getMatricule());
 
         if (studentMatricule == null){
-            student.setCreate_at(LocalDateTime.now());
-            this.studentRepo.save(student);
-            return StudentException.SUCCESSFUL;
+                student.setCreate_at(LocalDateTime.now());
+                student.generateMatricule();
+                this.studentRepo.save(student);
+
+                return StudentException.SUCCESSFUL;
         }
         else {
             return StudentException.SOMETHING_WENT_WRONG;
@@ -48,14 +51,14 @@ public class StudentServiceImpl implements StudentService {
 
         if (tutor != null) {
             if (tutor.getId() == null) {
-                // Le tuteur n'a pas encore d'ID, donc nous devons vérifier s'il existe déjà
+                // Tutor and admin don't get id, so we need to check if it already exists
                 Optional<Tutor> existingTutor = tutorRepo.findByFullName(tutor.getFullName());
 
                 if (existingTutor.isPresent()) {
-                    // Le tuteur existe déjà, nous l'assignons à l'étudiant
+                    // Tutor exist, we assign it to the student
                     student.setTutor(existingTutor.get());
                 } else {
-                    // Le tuteur n'existe pas, nous le créons et l'assignons à l'étudiant
+                    // Tutor don't exist, we create it and assign it to the student
                     UUID newTutorId = UUID.randomUUID();
                     tutor.setId(String.valueOf(newTutorId));
                     tutor.setCreate_at(LocalDateTime.now());
@@ -63,19 +66,73 @@ public class StudentServiceImpl implements StudentService {
                     student.setTutor(tutor);
                 }
             } else {
-                // Le tuteur a déjà un ID, nous supposons qu'il existe déjà
+                // Tutor already have an id, we assume that it already exists
                 student.setTutor(tutor);
             }
         }
 
+        //Register student
         student.setCreate_at(LocalDateTime.now());
+        student.generateMatricule();
         studentRepo.save(student);
+
+
+        //We send an email //to the tutor
+        Tutor tutorEmail = student.getTutor();
+
+        if (tutorEmail != null) {
+            if (tutorEmail.getEmail() == null) {
+                // Tutor's and admin email is null, we need to find the tutor by id
+                Optional<Tutor> existingTutor = tutorRepo.findById(tutorEmail.getId());
+                System.out.println(existingTutor);
+
+                if (existingTutor.isPresent()) {
+                    // Tutor with the specified id exists, assign it to the student
+                    Tutor foundTutor = existingTutor.get();
+                    System.out.println(foundTutor);
+
+                    student.setTutor(foundTutor);
+                    String tutorMail = foundTutor.getEmail();
+                    System.out.println(tutorMail);
+
+                    if (tutorMail != null) {
+                        String subject = "Registering a new student!";
+                        String message = "Dear " + foundTutor.getFullName() + ",\n\nyour student " +
+                                student.getFirstname() + " " + student.getLastname() + " has been successfully registered!";
+                        emailService.sendEmail(tutorMail, subject, message);
+                        log.info("Message sent successfully!");
+                    } else {
+                        System.out.println("Tutor email cannot be null!");
+                        log.info("Tutor email not found");
+                    }
+                } else {
+                    System.out.println("Tutor not found!");
+                    log.info("Tutor not found");
+                    log.info("Admin not found");
+                }
+            } else {
+                // Tutor's email is already available, use it to send the email
+                String tutorMail = tutorEmail.getEmail();
+                System.out.println(tutorMail);
+
+                String subject = "Registering a new student!";
+                String message = "Dear " + tutorEmail.getFullName() + ",\n\nyour student " +
+                        student.getFirstname() + " " + student.getLastname() + " has been successfully registered!";
+                emailService.sendEmail(tutorMail, subject, message);
+                log.info("Message sent successfully!");
+            }
+        } else {
+            System.out.println("Tutor is null!");
+            log.info("Tutor not found");
+            log.info("Admin not found");
+        }
+
     }
 
 
 
 
-    //Methode pour lire un etudiant
+    //Method to read student
     @Override
     public List<Student> getAllStudent() {
         return this.studentRepo.findAll();
@@ -83,7 +140,7 @@ public class StudentServiceImpl implements StudentService {
 
 
 
-    //Methode pour lire un etudiant par son id
+    //Method to read student by id
     @Override
     public Student getStudent(String id) {
         Optional<Student> optionalStudent = this.studentRepo.findById(id);
@@ -91,7 +148,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-    //Methode pour modifier un etudiant
+    //Method to update student
     @Override
     public String updateStudent(String id, Student student) {
         Student studentUpdated = this.getStudent(id);
@@ -100,7 +157,6 @@ public class StudentServiceImpl implements StudentService {
             studentUpdated.setFirstname(student.getFirstname());
             studentUpdated.setLastname(student.getLastname());
             studentUpdated.setDate_of_birth(student.getDate_of_birth());
-            studentUpdated.setImage(student.getImage());
             this.studentRepo.save(studentUpdated);
             return StudentException.SUCCESSFUL;
         }
@@ -111,7 +167,7 @@ public class StudentServiceImpl implements StudentService {
 
 
 
-    //Methode pour supprimer un etudiant
+    //Method to delete student
     @Override
     public void deleteStudent() {
         this.studentRepo.deleteAll();
@@ -119,9 +175,9 @@ public class StudentServiceImpl implements StudentService {
 
 
 
-    //Methode pour supprimer un etudiant par son id
+    //Method to delete student by id
     @Override
-    public void deleteStudentByid(String id) {
+    public void deleteStudentById(String id) {
         this.studentRepo.deleteById(id);
     }
 }

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +31,10 @@ public class SerieDTO {
     @JsonIgnore
     private List<Subject> subjects = new ArrayList<>();
 
-//    private LocalDateTime create_at;
-//
-//    private Timestamp update_at;
+    @JsonIgnore
+    private LocalDateTime create_at;
+
+    @JsonIgnore
+    private Timestamp update_at;
 
 }

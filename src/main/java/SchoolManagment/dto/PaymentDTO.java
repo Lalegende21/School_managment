@@ -1,5 +1,6 @@
 package SchoolManagment.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,10 @@ public class PaymentDTO {
 
     private StudentDTO student;
 
-//    private LocalDateTime create_at;
-//
-//    private Timestamp update_at;
+    @JsonIgnore
+    private LocalDateTime create_at;
+
+    @JsonIgnore
+    private Timestamp update_at;
 
 }

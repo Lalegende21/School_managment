@@ -4,36 +4,35 @@ import SchoolManagment.dto.SubjectDTO;
 import SchoolManagment.entity.Subject;
 import SchoolManagment.model.SubjectMapper;
 import SchoolManagment.serviceImpl.SubjectServiceImpl;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "subject")
 public class SubjectController {
 
     private final SubjectServiceImpl subjectService;
     private final SubjectMapper subjectMapper;
 
-    public SubjectController(SubjectServiceImpl subjectService, SubjectMapper subjectMapper) {
 
-        this.subjectService = subjectService;
-        this.subjectMapper = subjectMapper;
-    }
 
+    //Method to save subject
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void Create(@RequestBody SubjectDTO subjectDTO) {
+    public String Create(@RequestBody SubjectDTO subjectDTO) {
         Subject subject = subjectMapper.mapDTOToSubject(subjectDTO);
         this.subjectService.saveSubject(subject);
-        log.info("Subject enregistre avec succes !");
+        return "Subject register successfully!";
     }
 
 
+
+    //Method to read all subjects
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
     public List<SubjectDTO> getAllSubject() {
@@ -44,6 +43,8 @@ public class SubjectController {
     }
 
 
+
+    //Method to read subject by id
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
     public SubjectDTO getAdmin(@PathVariable String id) {
@@ -55,25 +56,32 @@ public class SubjectController {
     }
 
 
+
+    //Method to update subject
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateSubject(@PathVariable String id, @RequestBody SubjectDTO subjectDTO) {
+    public String updateSubject(@PathVariable String id, @RequestBody SubjectDTO subjectDTO) {
         Subject subject = subjectMapper.mapDTOToSubject(subjectDTO);
         this.subjectService.updateSubject(id, subject);
-        log.info("Mise a jour effectuee avec succes !");
+        return "Update complete successfully!";
     }
 
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+
+    //Method to delete all subjects
+    @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping
-    public void deleteAllSubject() {
+    public String deleteAllSubject() {
         this.subjectService.deleteSubject();
-        log.info("Tous les subject ont ete supprimes avec succes !");
+        return "All subjects delete successfully!";
     }
 
+
+
+    //Method to delete subject by id
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteSubject(@PathVariable String id) {
-        this.subjectService.deleteSubjectByid(id);
-        log.info("Subject supprime avec succes !");
+    public String deleteSubject(@PathVariable String id) {
+        this.subjectService.deleteSubjectById(id);
+        return "Subject delete successfully!";
     }
 }

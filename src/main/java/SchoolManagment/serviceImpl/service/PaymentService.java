@@ -7,21 +7,21 @@ import java.util.List;
 
 public interface PaymentService {
 
-    //Enregistrer un paiement
+    //Save payment
     String savePayment(Payment payment);
 
-    //Afficher tous les paiement
+    //Read all payments
     List<Payment> getAllPayment();
 
-    //Afficher un paiement par son id
+    //Read payment by id
     Payment getPayment(String id);
 
-    //MAJ des donnees d'un paiement
+    //Update payment
     String updatePayment(String id, Payment payment);
 
-    //Suppression de tous les paiement
+    //Delete all payments
     void deletePayment();
 
-    //Suppression d'un paiement par id
-    void deletePaymentByid(String id);
+    //Delete payment by id
+    void deletePaymentById(String id);
 }

@@ -7,22 +7,22 @@ import java.util.List;
 
 public interface TutorService {
 
-    //Enregistrer un tutor
+    //Save tutor
     String saveTutor(Tutor tutor);
 
-    //Afficher tous les tutor
+    //Read all tutors
     List<Tutor> getAllTutor();
 
-    //Afficher un tutor par son id
+    //Read tutor by id
     Tutor getTutor(String id);
 
-    //MAJ des donnees d'un tutor
+    //Update tutor
     String updateTutor(String id, Tutor tutor);
 
-    //Suppression de tous les tutor
+    //Delete all tutors
     void deleteTutor();
 
-    //Suppression d'un tutor par id
-    void deleteTutorByid(String id);
+    //Delete tutor by id
+    void deleteTutorById(String id);
 
 }

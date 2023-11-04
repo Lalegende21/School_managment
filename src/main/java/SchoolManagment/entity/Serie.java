@@ -42,13 +42,11 @@ public class Serie {
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
     private List<Student> students;
 
-//    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
-//    private List<Serie_Subject> serieSubjects;
 
     @ManyToMany
     @JoinTable(
-            name = "serie_subject",
-            joinColumns = @JoinColumn(name = "serie_id"),
+            name = "series_subject",
+            joinColumns = @JoinColumn(name = "series_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
     private List<Subject> subjects = new ArrayList<>();

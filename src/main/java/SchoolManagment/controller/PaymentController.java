@@ -4,36 +4,34 @@ import SchoolManagment.dto.PaymentDTO;
 import SchoolManagment.entity.Payment;
 import SchoolManagment.model.PaymentMapper;
 import SchoolManagment.serviceImpl.PaymentServiceImpl;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "payment")
 public class PaymentController {
 
     private final PaymentServiceImpl paymentService;
     private final PaymentMapper paymentMapper;
 
-    public PaymentController(PaymentServiceImpl paymentService, PaymentMapper paymentMapper) {
 
-        this.paymentService = paymentService;
-        this.paymentMapper = paymentMapper;
-    }
-
+    //Method to save payment
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void Create(@RequestBody PaymentDTO paymentDTO) {
+    public String Create(@RequestBody PaymentDTO paymentDTO) {
         Payment payment = paymentMapper.mapDTOToPayment(paymentDTO);
         this.paymentService.savePayment(payment);
-        log.info("Paiement enregistre avec succes !");
+        return "Payment register successfully!";
     }
 
 
+
+    //Method to read all payments
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
     public List<PaymentDTO> getAllPayment() {
@@ -45,6 +43,8 @@ public class PaymentController {
     }
 
 
+
+    //Method to read payments by id
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
     public PaymentDTO getPayment(@PathVariable String id) {
@@ -55,25 +55,32 @@ public class PaymentController {
     }
 
 
+
+    //Methode to update payment
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updatePayment(@PathVariable String id, @RequestBody PaymentDTO paymentDTO) {
+    public String updatePayment(@PathVariable String id, @RequestBody PaymentDTO paymentDTO) {
         Payment payment = paymentMapper.mapDTOToPayment(paymentDTO);
         this.paymentService.updatePayment(id, payment);
-        log.info("Mise a jour effectuee avec succes !");
+        return "Update complete successfully!";
     }
 
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+
+
+    //Method to delete all payments
+    @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping
-    public void deleteAllPayment() {
+    public String deleteAllPayment() {
         this.paymentService.deletePayment();
-        log.info("Tous les paiements ont ete supprimes avec succes !");
+        return "All payments delete successfully!";
     }
 
+
+    //Method to delete payment by id
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deletePayment(@PathVariable String id) {
-        this.paymentService.deletePaymentByid(id);
-        log.info("Paiement supprime avec succes !");
+    public String deletePayment(@PathVariable String id) {
+        this.paymentService.deletePaymentById(id);
+        return "Payment delete successfully!";
     }
 }

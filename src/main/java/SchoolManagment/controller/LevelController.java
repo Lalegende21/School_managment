@@ -4,35 +4,34 @@ import SchoolManagment.dto.LevelDTO;
 import SchoolManagment.entity.Level;
 import SchoolManagment.model.LevelMapper;
 import SchoolManagment.serviceImpl.LevelServiceImpl;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "level")
 public class LevelController {
 
     private final LevelServiceImpl levelService;
     private final LevelMapper levelMapper;
 
-    public LevelController(LevelServiceImpl levelService, LevelMapper levelMapper) {
-        this.levelService = levelService;
-        this.levelMapper = levelMapper;
-    }
 
+
+    //Method to save level
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void Create(@RequestBody LevelDTO levelDTO) {
+    public String Create(@RequestBody LevelDTO levelDTO) {
         Level level = levelMapper.mapDTOToLevel(levelDTO);
         this.levelService.saveLevel(level);
-        log.info("Level enregistre avec succes !");
+        return "Level register successfully !";
     }
 
 
+    //Method to read all levels
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
     public List<LevelDTO> getAllLevel() {
@@ -44,6 +43,8 @@ public class LevelController {
     }
 
 
+
+    //Method to read level by id
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
     public LevelDTO getLevel(@PathVariable String id) {
@@ -55,25 +56,31 @@ public class LevelController {
     }
 
 
+
+    //Method to update level
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateLevel(@PathVariable String id, @RequestBody LevelDTO levelDTO) {
+    public String updateLevel(@PathVariable String id, @RequestBody LevelDTO levelDTO) {
         Level level = levelMapper.mapDTOToLevel(levelDTO);
         this.levelService.updateLevel(id, level);
-        log.info("Mise a jour effectuee avec succes !");
+        return "Update complete successfully!";
     }
 
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+
+    //Method to delete all levels
+    @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping
-    public void deleteAllLevel() {
+    public String deleteAllLevel() {
         this.levelService.deleteLevel();
-        log.info("Tous les levels ont ete supprimes avec succes !");
+        return "All levels delete successfully!";
     }
 
+
+    //Method to delete level by id
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteLevel(@PathVariable String id) {
-        this.levelService.deleteLevelByid(id);
-        log.info("Level supprime avec succes !");
+    public String deleteLevel(@PathVariable String id) {
+        this.levelService.deleteLevelById(id);
+        return "Level delete successfully!";
     }
 }

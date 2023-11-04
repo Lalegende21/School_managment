@@ -4,6 +4,8 @@ import SchoolManagment.enums.TutorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +25,9 @@ public class TutorDTO {
     @JsonIgnore
     private List<StudentDTO> students;
 
-//    private LocalDateTime create_at;
-//
-//    private Timestamp update_at;
+    @JsonIgnore
+    private LocalDateTime create_at;
+
+    @JsonIgnore
+    private Timestamp update_at;
 }

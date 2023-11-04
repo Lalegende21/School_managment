@@ -4,35 +4,34 @@ import SchoolManagment.dto.InstructorDTO;
 import SchoolManagment.entity.Instructor;
 import SchoolManagment.model.InstructorMapper;
 import SchoolManagment.serviceImpl.InstructorServiceImpl;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "instructor")
 public class InstructorController {
 
     private InstructorServiceImpl instructorService;
     private final InstructorMapper instructorMapper;
 
-    public InstructorController(InstructorServiceImpl instructorService, InstructorMapper instructorMapper) {
-        this.instructorService = instructorService;
-        this.instructorMapper = instructorMapper;
-    }
 
+
+    //Method to save instructor
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void Create(@RequestBody InstructorDTO instructorDTO) {
+    public String Create(@RequestBody InstructorDTO instructorDTO) {
         Instructor instructor = instructorMapper.mapDTOToInstructor(instructorDTO);
         this.instructorService.saveInstructor(instructor);
-        log.info("instructeurr enregistre avec succes !");
+        return "Instructor register successfully!";
     }
 
 
+    //Method to read all instructors
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
     public List<InstructorDTO> getAllInstructor() {
@@ -44,6 +43,8 @@ public class InstructorController {
     }
 
 
+
+    //Method to read instructor by id
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(path = "{id}")
     public InstructorDTO getInstructor(@PathVariable String id) {
@@ -56,25 +57,32 @@ public class InstructorController {
     }
 
 
+
+    //Method to update instructor
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @PutMapping(path = "{id}")
-    public void updateAdmin(@PathVariable String id, @RequestBody InstructorDTO instructorDTO) {
+    public String updateAdmin(@PathVariable String id, @RequestBody InstructorDTO instructorDTO) {
         Instructor instructor = instructorMapper.mapDTOToInstructor(instructorDTO);
         this.instructorService.updateInstructor(id, instructor);
-        log.info("Mise a jour effectuee avec succes !");
+        return "Update complete successfully!";
     }
 
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+
+    //Method to delete all instructor
+    @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping
-    public void deleteAllInstructor() {
+    public String deleteAllInstructor() {
         this.instructorService.getAllInstructor();
-        log.info("Tous les instructeurs ont ete supprimes avec succes !");
+        return "All instructor delete successfully!";
     }
 
+
+
+    //Method to delete instructor by id
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void deleteInstructor(@PathVariable String id) {
-        this.instructorService.deleteInstructorByid(id);
-        log.info("Instructeur supprime avec succes !");
+    public String deleteInstructor(@PathVariable String id) {
+        this.instructorService.deleteInstructorById(id);
+        return "Instructor delete successfully!";
     }
 }

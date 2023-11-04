@@ -38,9 +38,6 @@ public class Subject {
     @JoinColumn(name = "level_id", referencedColumnName = "id")
     private Level level;
 
-//    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-//    private List<Serie_Subject> serieSubjects;
-
 
     @ManyToMany(mappedBy = "subjects")
     private List<Serie> series = new ArrayList<>();
