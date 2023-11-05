@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling        //Pour programmer les tâche dans mon application
 @SpringBootApplication
 @ComponentScan("SchoolManagment")
 public class SchoolManagmentApplication {

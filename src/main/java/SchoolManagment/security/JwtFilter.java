@@ -1,5 +1,6 @@
 package SchoolManagment.security;
 
+import SchoolManagment.entity.Jwt;
 import SchoolManagment.entity.User;
 import SchoolManagment.serviceImpl.UserServiceImpl;
 import jakarta.servlet.FilterChain;
@@ -28,6 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = null;
+        Jwt tokenInBd = null;
         String username = null;
         boolean isTokenExpired = true;
 
@@ -36,11 +38,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authorization != null && authorization.startsWith("Bearer")){
             token = authorization.substring(7);
+            tokenInBd = this.jwtService.tokenByValue(token);
             isTokenExpired = jwtService.isTokenExpired(token);
             username = jwtService.extractUsername(token);
         }
 
-        if (!isTokenExpired && username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (
+                !isTokenExpired
+                && tokenInBd.getUser().getEmail().equals(username)
+                && SecurityContextHolder.getContext().getAuthentication() == null
+        ) {
             User userDetails = (User) userService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
                     userDetails.getAuthorities());

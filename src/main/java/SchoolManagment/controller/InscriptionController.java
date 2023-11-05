@@ -55,6 +55,19 @@ public class InscriptionController {
     }
 
 
+    //Deconnexion du compte
+    @PostMapping(path = "deconnexion")
+    public String deconnexion() {
+        try {
+            this.jwtService.deconnexion();
+            return "Deconnexion successfully!";
+        }catch (Exception e){
+            System.out.println(e);
+            return "Something went wrong!";
+        }
+    }
+
+
     //Connexion du compte
     @PostMapping(path = "connexion")
     public Map<String, String> connexion(@RequestBody AuthenticationDTO authenticationDTO) {
