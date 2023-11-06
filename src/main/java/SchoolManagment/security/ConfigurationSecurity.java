@@ -41,6 +41,8 @@ public class ConfigurationSecurity {
                                                 .requestMatchers(POST,"/inscription").permitAll()
                                                 .requestMatchers(POST,"/activation").permitAll()
                                                 .requestMatchers(POST,"/connexion").permitAll()
+                                                .requestMatchers(POST,"/modifier-mot-de-passe").permitAll()
+                                                .requestMatchers(POST,"/nouveau-mot-de-passe").permitAll()
                                                 .anyRequest().authenticated()
                         )
                         .sessionManagement(httpSecuritySessionManagementConfigurer ->

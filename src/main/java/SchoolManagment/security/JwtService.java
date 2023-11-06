@@ -121,11 +121,4 @@ public class JwtService {
         this.jwtRepo.save(jwt);
     }
 
-
-    //Pour nettoyer les jwt de la bd
-//    @Scheduled(cron = "0 */1 * * * *")
-//    public void removeUselessJwt(){
-//        log.info("Suppression des tokens a {}", Instant.now());
-//        this.jwtRepo.deleteAllByExpiredAndDesactive(true, true);
-//    }
 }

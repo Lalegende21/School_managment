@@ -5,7 +5,6 @@ import SchoolManagment.entity.Validation;
 import SchoolManagment.repository.UserRepo;
 import SchoolManagment.serviceImpl.service.UserClass;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -64,4 +63,21 @@ public class UserServiceImpl implements UserClass, UserDetailsService {
                 .findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur inconnu!"));
     }
+
+    public void resetPassword(Map<String, String> parametres) {
+        User user = (User) this.loadUserByUsername(parametres.get("email"));
+        this.validationService.save(user);
+    }
+
+    public void newPassword(Map<String, String> parametres) {
+        User user = (User) this.loadUserByUsername(parametres.get("email"));
+        Validation validation = validationService.readCode(parametres.get("code"));
+        if (validation.getUser().getEmail().equals(user.getEmail())) {
+            String mdp = this.passwordEncoder.encode(parametres.get("password"));
+            user.setPassword(mdp);
+            this.userRepo.save(user);
+        }
+    }
+
+
 }

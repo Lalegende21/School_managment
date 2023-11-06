@@ -5,7 +5,10 @@ import SchoolManagment.entity.Validation;
 import SchoolManagment.mails.EmailService;
 import SchoolManagment.repository.ValidationRepo;
 import SchoolManagment.serviceImpl.service.ValidationService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,6 +16,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 @Service
+@Slf4j
+@Transactional
 @AllArgsConstructor
 public class ValidationServiceImpl implements ValidationService {
 
@@ -43,5 +48,13 @@ public class ValidationServiceImpl implements ValidationService {
 
     public Validation readCode(String code){
         return this.validationRepo.findByCode(code).orElseThrow(() -> new RuntimeException("Votre code est invalide"));
+    }
+
+
+    @Scheduled(cron = "*/30 * * * * *")
+    public void removeUselessJwt(){
+        Instant now = Instant.now();
+        log.info("Suppression des tokens a {}", now);
+        this.validationRepo.deleteAllByExpirationBefore(now);
     }
 }

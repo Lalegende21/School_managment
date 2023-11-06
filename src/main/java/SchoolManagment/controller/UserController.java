@@ -20,7 +20,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @AllArgsConstructor
-public class InscriptionController {
+public class UserController {
 
     private final UserServiceImpl userService;
     private AuthenticationManager authenticationManager;
@@ -53,6 +53,35 @@ public class InscriptionController {
             return "Something went wrong!";
         }
     }
+
+
+
+    //Reset password
+    @PostMapping(path = "modifier-mot-de-passe")
+    public String resetPassword(@RequestBody Map<String, String> activation) {
+        try {
+            this.userService.resetPassword(activation);
+            return "Password reset successfully!";
+        }catch (Exception e){
+            System.out.println(e);
+            return "Something went wrong!";
+        }
+    }
+
+
+
+    //New password
+    @PostMapping(path = "nouveau-mot-de-passe")
+    public String newPassword(@RequestBody Map<String, String> activation) {
+        try {
+            this.userService.newPassword(activation);
+            return "Password done successfully!";
+        }catch (Exception e){
+            System.out.println(e);
+            return "Something went wrong!";
+        }
+    }
+
 
 
     //Deconnexion du compte
